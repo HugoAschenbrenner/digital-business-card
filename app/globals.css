@@ -1,0 +1,456 @@
+@import "./tools.css";
+:root {
+  color-scheme: dark;
+  --bg: #0d0f12;
+  --surface: #161a1f;
+  --text: #f2f1ee;
+  --muted: #a3a8af;
+  --accent: #a9c5dd;
+  --accent-ink: #142532;
+  --line: #2c3239;
+  --soft: #1c2229;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button,
+a,
+input,
+select {
+  touch-action: manipulation;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  color: inherit;
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  border: 0;
+}
+p,
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 5px;
+}
+button,
+a {
+  transition:
+    background-color 0.16s,
+    color 0.16s,
+    border-color 0.16s,
+    transform 0.16s;
+}
+button:active,
+.button:active {
+  transform: translateY(1px);
+}
+[data-theme="amber"] {
+  --accent: #dfb17a;
+  --accent-ink: #302213;
+  --soft: #27221d;
+  --line: #37322c;
+  --muted: #aea79e;
+}
+[data-theme="graphite"] {
+  --accent: #d4d2cb;
+  --accent-ink: #21221f;
+  --soft: #242526;
+  --line: #343536;
+  --muted: #aaa9a5;
+}
+.card-stage {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 48px 24px;
+  padding-top: max(32px, env(safe-area-inset-top));
+  padding-bottom: max(32px, env(safe-area-inset-bottom));
+}
+.business-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--accent);
+  border-radius: 20px;
+  box-shadow: 0 24px 80px #0003;
+  padding: 30px 30px 14px;
+  position: relative;
+}
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+.monogram {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 10px 9px;
+  color: var(--accent);
+}
+.location {
+  font-size: 0.6875rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.identity {
+  position: relative;
+}
+.avatar-wrap {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 22px;
+  position: relative;
+  border-radius: 50%;
+  background: var(--soft);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 2px solid #ffffff15;
+}
+.avatar-wrap > span {
+  position: absolute;
+  color: var(--accent);
+  font-size: 1.375rem;
+}
+.avatar {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  font-size: 0;
+  color: transparent;
+}
+.identity h1 {
+  font-weight: 540;
+  font-size: 2.125rem;
+  line-height: 1.09;
+  letter-spacing: -1.2px;
+  overflow-wrap: anywhere;
+}
+.without-photo {
+  padding-top: 14px;
+}
+.without-photo h1 {
+  font-size: 2.25rem;
+}
+.position {
+  margin-top: 20px;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  letter-spacing: -0.15px;
+}
+.position > p:first-child {
+  font-weight: 450;
+}
+.focus {
+  color: var(--accent);
+  font-size: 0.875rem;
+}
+.credentials {
+  margin: 23px 0 26px;
+  padding-top: 21px;
+  border-top: 1px solid var(--line);
+}
+.school {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+.credential {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.71875rem;
+  margin-top: 9px;
+  line-height: 1.5;
+}
+.credential-mark {
+  color: var(--accent);
+  font-size: 1rem;
+  line-height: 1;
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  min-height: 50px;
+  padding: 12px 18px;
+  font-size: 0.875rem;
+  font-weight: 550;
+  background: var(--soft);
+}
+.primary {
+  width: 100%;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  min-height: 54px;
+}
+.primary > svg:last-child {
+  margin-left: auto;
+}
+.primary > svg:first-child {
+  margin-right: auto;
+}
+.primary:hover {
+  filter: brightness(1.07);
+}
+.secondary-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+.secondary-actions > a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 9px;
+  min-height: 79px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  font-size: 0.75rem;
+  background: #ffffff02;
+}
+.secondary-actions > a > svg:first-child {
+  color: var(--muted);
+}
+.secondary-actions > a > svg:last-child {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  color: var(--muted);
+  opacity: 0.7;
+}
+.secondary-actions > a:hover {
+  border-color: var(--accent);
+  background: var(--soft);
+}
+.share-row {
+  display: flex;
+  margin-top: 17px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.share-row > button {
+  min-height: 44px;
+  background: none;
+  color: var(--muted);
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  font-size: 0.75rem;
+  padding: 8px 10px;
+}
+.share-row > button:last-child {
+  border-left: 1px solid var(--line);
+  padding-left: 20px;
+}
+.share-row > button:hover {
+  color: var(--text);
+}
+.share-status {
+  font-size: 0.75rem;
+  color: var(--accent);
+  text-align: center;
+  min-height: 16px;
+}
+.copy-input {
+  width: 100%;
+  background: var(--soft);
+  color: var(--text);
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.nojs-share {
+  display: block;
+  text-align: center;
+  font-size: 0.8125rem;
+  padding: 10px;
+}
+.qr-dialog {
+  width: min(90vw, 388px);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 34px 24px 26px;
+  text-align: center;
+  max-height: 90svh;
+  overflow: auto;
+}
+.qr-dialog::backdrop {
+  background: #000b;
+  backdrop-filter: blur(4px);
+}
+.close-dialog {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 44px;
+  height: 44px;
+  background: none;
+  display: grid;
+  place-items: center;
+}
+.eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 2px;
+  color: var(--accent);
+  font-weight: 600;
+}
+.qr-dialog h2 {
+  font-size: 1.375rem;
+  letter-spacing: -0.6px;
+  margin: 16px 0 8px;
+}
+.qr-dialog p:not(.eyebrow) {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.qr-dialog img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 24px auto 18px;
+  border-radius: 8px;
+  background: white;
+}
+.card-link {
+  font-size: 0.75rem;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.text-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  margin-top: 22px;
+  min-height: 44px;
+}
+@media (max-width: 480px) {
+  .card-stage {
+    padding: 18px 18px;
+    padding-top: max(18px, env(safe-area-inset-top));
+    padding-bottom: max(18px, env(safe-area-inset-bottom));
+  }
+  .business-card {
+    padding: 25px 25px 10px;
+    border-radius: 17px;
+    box-shadow: none;
+  }
+  .card-top {
+    margin-bottom: 25px;
+  }
+  .identity h1 {
+    font-size: 2rem;
+  }
+  .avatar-wrap {
+    width: 68px;
+    height: 68px;
+    margin-bottom: 20px;
+  }
+  .position {
+    margin-top: 18px;
+  }
+  .credentials {
+    margin: 21px 0 23px;
+  }
+}
+@media (max-height: 740px) and (max-width: 480px) {
+  .card-stage {
+    padding: 12px 16px;
+  }
+  .business-card {
+    padding: 18px 23px 6px;
+  }
+  .card-top {
+    margin-bottom: 16px;
+  }
+  .avatar-wrap {
+    width: 58px;
+    height: 58px;
+    margin-bottom: 15px;
+  }
+  .identity h1 {
+    font-size: 1.875rem;
+  }
+  .position {
+    margin-top: 14px;
+  }
+  .credentials {
+    margin: 17px 0 18px;
+    padding-top: 16px;
+  }
+  .secondary-actions > a {
+    min-height: 70px;
+  }
+  .share-row {
+    margin-top: 10px;
+  }
+  .primary {
+    min-height: 50px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}
