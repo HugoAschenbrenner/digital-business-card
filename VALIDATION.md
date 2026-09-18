@@ -7,10 +7,10 @@ Verified locally on 18 September 2026 with Node.js 24.19.0 and Next.js 16.3.5. T
 - `npm install`: passed. Exact dependency versions and `package-lock.json` committed. Final npm audit reported **zero known vulnerabilities**. ESLint 9 is retained because the current Next.js React lint plugin is incompatible with ESLint 10.
 - `npm run lint`: passed.
 - `npm run typecheck`: passed.
-- `npm test`: **9 passed**. Tests cover origin selection, vCard syntax/UTF-8, photo size, independent QR decoding, all six Wallet theme/artwork variants, profile validation/modes, authentication and unavailable-provider fallback.
-- `npm run build`: passed with 19 generated route entries. The card, résumé page, theme lab and Wallet page are server-rendered with revalidation. Dynamic downloads and protected admin APIs are included.
+- `npm test`: **12 passed**. Tests cover origin selection, vCard syntax/UTF-8, photo size, independent QR decoding, all six Wallet theme/artwork variants, profile validation/modes, authentication, unavailable-provider fallback and offline updates across deployments.
+- `npm run build`: passed. The card, résumé page, theme lab and Wallet page are server-rendered with revalidation. Dynamic downloads and protected admin APIs are included.
 - Chrome and WebKit browser suite: **39 passed, 1 intentionally skipped**. The skipped test is WebKit's unreliable Playwright service-worker offline control; the same offline test passed in Chrome. No failed tests remain.
-- Isolated production admin smoke test: passed for login, persisted mode/theme/photo toggle, rejection of a false PDF, valid PDF/photo upload, visible public updates and logout. The test also exercised an unreachable backend and analytics failure.
+- Isolated production admin smoke test: passed for login, persisted mode/theme/photo toggle, rejection of a false PDF, valid PDF/photo upload, visible public updates and logout. The test also exercised an unreachable backend and analytics failure, and restores the baseline public card after its edits.
 - Original PDF integrity: source and served copy both have SHA-256 `87103122c17cd3ac2078d5f106bb77d3bb3ee3c97680e5599de2eb71b6f0a43f`.
 - Deployment tracing: the original PDF and profile derivative are included in the server route file traces, in addition to public asset delivery.
 
@@ -28,12 +28,18 @@ Lighthouse 13.4.1 against the local production server, mobile emulation, simulat
 - Accessibility: **100 / 100**
 - Best Practices: **100 / 100**
 - SEO: **100 / 100**
-- First contentful paint: **0.9 s**
-- Largest contentful paint: **2.0 s**
+- First contentful paint: **0.8 s**
+- Largest contentful paint: **1.9 s**
 - Cumulative layout shift: **0**
 - Total measured transferred payload: approximately **158 KiB**.
 
-The measurement preceded a focus-restoration fix and explanatory local-preview text on the tool pages; neither changes the public card's visual layout or architecture. Scores are not guaranteed on a live host or every device. Re-run after deployment and any substantial changes.
+This measurement was repeated on the final production build after the offline-cache correction. Scores are not guaranteed on a live host or every device. Re-run after deployment and any substantial changes.
+
+## Continuation after the interrupted session
+
+The initial implementation was already published on `main` as `14229edbf16a25a40b4ae1666bffb7824c10b7cd`. Its tree matched the local tested implementation exactly, and [GitHub Actions completed successfully](https://github.com/HugoAschenbrenner/digital-business-card/actions/runs/35318517579). No uncommitted application work was lost.
+
+The continuation synchronized local history and corrected one cache-update edge case: every new cached HTML snapshot now includes its current scripts, styles, portrait and contact assets. A failed new script/style download preserves the previous complete offline card, while online rendering never waits for cache preparation. Three regression tests cover those behaviours. The full local suite, production build, admin smoke test and Lighthouse run above were repeated successfully after the correction.
 
 ## Checks still requiring the owner's services or physical devices
 

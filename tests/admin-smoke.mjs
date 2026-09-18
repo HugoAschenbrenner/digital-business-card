@@ -108,6 +108,16 @@ try {
   );
   assert.equal(await page.locator(".avatar").count(), 0);
   assert.equal(await page.locator(".focus").innerText(), "Global Markets");
+  // ISR HTML shares the build directory even when profile storage is isolated.
+  // Restore the bundled profile before leaving the production preview behind.
+  const baseline = JSON.parse(await readFile("content/profile.json", "utf8"));
+  const restored = await page.request.put(`${base}/api/admin/profile`, {
+    headers: { origin: base },
+    data: baseline,
+  });
+  assert.equal(restored.status(), 200);
+  await page.goto(`${base}/card`);
+  assert.equal(await page.locator(".focus").innerText(), baseline.focus);
   await page.goto(`${base}/admin`);
   await page.getByRole("button", { name: "Sign out" }).click();
   await page.getByLabel("Admin password").waitFor();

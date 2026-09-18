@@ -237,7 +237,7 @@ test("warm card and vCard remain available offline", async ({
   await expect
     .poll(() =>
       page.evaluate(async () => {
-        const c = await caches.open("hugo-card-v1");
+        const c = await caches.open("hugo-card-v2");
         return (await c.keys())
           .map((r) => new URL(r.url).pathname)
           .filter((p) => p.startsWith("/_next/static/")).length;
