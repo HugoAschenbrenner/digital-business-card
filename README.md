@@ -1,6 +1,6 @@
 # Hugo Aschenbrenner — Digital Business Card
 
-A compact, mobile-first business card for professional networking. English copy, a discreet portrait, and a single primary action: **Save Contact**. There is no résumé timeline, marketing landing page or market-themed decoration.
+A compact, mobile-first business card for professional networking. English copy, a discreet portrait, and a single primary action: **Save Contact**. There is no resume timeline, marketing landing page or market-themed decoration.
 
 ## Run locally
 
@@ -25,6 +25,7 @@ Do not run development and production servers on the same port. Keep `SITE_URL` 
 
 - Next.js App Router, React, strict TypeScript and custom CSS tokens. Native system fonts, semantic links and server rendering keep the public card useful before JavaScript loads. CSS is deliberately small; Tailwind is unnecessary for this focused interface.
 - `content/profile.json` is the default content source. `lib/profile.ts` validates it and resolves the three positioning modes. Components, contact files, QR payloads and Wallet artwork all use this model.
+- The public identity shows the name, school eyebrow, MSc title and accented focus. The CFA credential stays in the source data and original resume; it is not displayed on the card.
 - `lib/provider.ts` separates content and asset persistence from the UI. Local development uses ignored `.data/` files. Vercel uses the optional Supabase provider; without it, deployed configuration is read-only.
 - Public profile reads are cached for 60 seconds and invalidated on an admin save. Supabase failures have a bounded timeout and fall back to the bundled profile and original assets. The fallback may show the last **bundled** details, so keep them accurate when editing remotely.
 - Only sharing, design controls, admin forms and optional event reporting hydrate on the client. Supabase credentials and admin secrets remain server-side.
@@ -33,9 +34,9 @@ Do not run development and production servers on the same port. Keep `SITE_URL` 
 ## Routes
 
 - `/` redirects to `/card`.
-- `/card`: compact public business card, contact download, direct LinkedIn and Terminal links, résumé and native share / copy-link fallback. The QR button opens a keyboard-accessible dialog.
+- `/card`: compact public business card, contact download, direct LinkedIn and Terminal links, resume and native share / copy-link fallback. The QR button opens a keyboard-accessible dialog.
 - `/contact.vcf`: vCard 3.0, UTF-8, CRLF, byte-safe line folding and a small embedded JPEG.
-- `/resume`: stable résumé page, with inline PDF viewing and download links.
+- `/resume`: stable resume page, with inline PDF viewing and download links and a prominent sticky **Back to Card** control.
 - `/api/resume`: original PDF bytes; `?download=1` selects an attachment response.
 - `/design-lab`: all three themes side by side on desktop, theme buttons on mobile, with photo on/off. Preview choices do not publish changes.
 - `/qr`: primary and offline QR codes, each available as SVG and 1,600px PNG.
@@ -85,11 +86,11 @@ The three themes use the same layout and content:
 
 Compare them at `/design-lab`. Publish a theme with the `theme` setting or in `/admin`. `showPhoto: false` removes the portrait from the card, while the downloaded contact still includes it.
 
-Modes are `equity` (default), `markets` and `asset`. Equity uses the editable positioning/focus fields; the other two resolve to **Financial Markets & Investments / Global Markets** or **Financial Markets & Investments / Asset Management**. Switching back restores the edited Equity Derivatives copy. No mode introduces a current job title or employment claim. The saved mode applies to the card, contact note and assets.
+Modes are `equity` (default), `markets` and `asset`. Equity uses the editable positioning/focus fields; the other two resolve to **MSc Financial Markets & Investments / Global Markets** or **MSc Financial Markets & Investments / Asset Management**. Switching back restores the edited Equity Derivatives copy. No mode introduces a current job title or employment claim. The saved mode applies to the card, contact note and assets.
 
 The specified SKEMA email overrides the different address printed in the supplied PDF. The PDF itself is unchanged. The phone is inside the downloadable contact and offline assets, but is not visibly displayed on `/card`.
 
-## Replace the résumé and photo
+## Replace the resume and photo
 
 The canonical PDF is `public/assets/Hugo_Aschenbrenner_CV.pdf`. Replace it with the new PDF at the same path and redeploy, or upload in authenticated `/admin` and **Save changes**. Public `/resume` and `/api/resume` addresses stay stable. Responses differ only in inline vs attachment disposition; PDF bytes are preserved. The original supplied file was copied byte for byte.
 

@@ -113,7 +113,7 @@ export function AdminForm({
     { key: "positioning", label: "Main positioning", max: 80 },
     { key: "focus", label: "Equity Derivatives focus", max: 80 },
     { key: "school", label: "School", max: 80 },
-    { key: "credential", label: "Credential", max: 90 },
+    { key: "credential", label: "Credential (source only)", max: 90 },
     { key: "email", label: "Email", type: "email", max: 120 },
     { key: "phone", label: "Phone · contact file only", type: "tel", max: 30 },
     { key: "linkedin", label: "LinkedIn URL", type: "url", max: 500 },
@@ -197,7 +197,7 @@ export function AdminForm({
           </div>
         </section>
         <section className="admin-section">
-          <h2>Profile photo &amp; résumé</h2>
+          <h2>Profile photo &amp; resume</h2>
           <div className="form-grid">
             <label className="field">
               Profile photo
@@ -213,7 +213,7 @@ export function AdminForm({
               </small>
             </label>
             <label className="field">
-              Résumé PDF
+              Resume PDF
               <input
                 type="file"
                 accept="application/pdf"

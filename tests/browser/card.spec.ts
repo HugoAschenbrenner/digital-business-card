@@ -27,6 +27,15 @@ for (const [name, width, height] of [
     const bounds = await page.locator(".business-card").boundingBox();
     expect(bounds!.height).toBeLessThanOrEqual(height);
     expect(await page.locator("main").innerText()).not.toContain("+33");
+    await expect(page.locator(".position > p")).toHaveText([
+      "SKEMA Business School",
+      "MSc Financial Markets & Investments",
+      "Equity Derivatives · Sales",
+    ]);
+    await expect(page.locator("main")).not.toContainText("CFA");
+    await expect(
+      page.getByRole("link", { name: "Resume", exact: true }),
+    ).toHaveAttribute("href", "/resume");
     expect(
       (
         await new AxeBuilder({ page })
@@ -52,7 +61,7 @@ test("PDF viewing and downloading preserve the supplied file", async ({
   request,
 }) => {
   await page.goto("/resume");
-  await expect(page.getByRole("link", { name: "View Résumé" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: "View Resume" })).toHaveAttribute(
     "href",
     "/api/resume",
   );
@@ -66,6 +75,44 @@ test("PDF viewing and downloading preserve the supplied file", async ({
       await readFile("public/assets/Hugo_Aschenbrenner_CV.pdf"),
     );
   }
+});
+test("resume has an obvious mobile return control that stays in reach", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/card");
+  await page.getByRole("link", { name: "Resume", exact: true }).click();
+  await expect(page).toHaveURL(/\/resume$/);
+  await expect(page).toHaveTitle(/Resume/);
+  await expect(page.locator("main")).not.toContainText(/résumé/i);
+  const back = page.getByRole("link", { name: "Back to Card", exact: true });
+  await expect(back).toBeInViewport();
+  const initialBounds = (await back.boundingBox())!;
+  expect(initialBounds.y).toBeLessThan(32);
+  expect(initialBounds.height).toBeGreaterThanOrEqual(44);
+  expect(initialBounds.width).toBeGreaterThan(300);
+  expect(
+    (
+      await new AxeBuilder({ page })
+        .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+        .analyze()
+    ).violations,
+  ).toEqual([]);
+
+  // Enlarged text and a short viewport force scrolling, as with mobile zoom.
+  await page.setViewportSize({ width: 390, height: 420 });
+  await page.addStyleTag({ content: ":root { font-size: 200%; }" });
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  await expect(back).toBeInViewport();
+  expect((await back.boundingBox())!.y).toBeLessThan(32);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await back.click();
+  await expect(page).toHaveURL(/\/card$/);
 });
 test("contact file downloads with photo and the specified email", async ({
   request,

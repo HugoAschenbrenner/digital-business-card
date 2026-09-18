@@ -1,21 +1,23 @@
 import type { Metadata } from "next";
 import { getProfile } from "@/lib/provider";
 import { Icon } from "@/components/icon";
-export const metadata: Metadata = { title: "Résumé" };
+export const metadata: Metadata = { title: "Resume" };
 export const revalidate = 60;
 export default async function Resume() {
   const p = await getProfile();
   return (
     <main className="workspace resume-surface">
-      <a className="back-link" href="/card">
-        <Icon name="back" size={16} />
-        Digital card
-      </a>
-      <section className="panel" style={{ marginTop: 30 }}>
+      <nav className="resume-navigation" aria-label="Resume navigation">
+        <a className="button resume-back" href="/card">
+          <span aria-hidden="true">←</span>
+          Back to Card
+        </a>
+      </nav>
+      <section className="panel">
         <div className="resume-icon">
           <Icon name="resume" size={28} />
         </div>
-        <p className="eyebrow">RÉSUMÉ · PDF</p>
+        <p className="eyebrow">RESUME · PDF</p>
         <h1>{p.fullName}</h1>
         <p className="intro">{p.positioning}</p>
         <div className="resume-actions">
@@ -25,7 +27,7 @@ export default async function Resume() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            View Résumé
+            View Resume
             <Icon name="arrow" size={18} />
           </a>
           <a className="button" href="/api/resume?download=1" download>

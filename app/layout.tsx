@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     default: `${defaultProfile.fullName} | Digital Business Card`,
     template: `%s | ${defaultProfile.fullName}`,
   },
-  description: `${defaultProfile.positioning}. ${defaultProfile.focus}. Save contact details, connect on LinkedIn or view the résumé.`,
+  description: `${defaultProfile.positioning}. ${defaultProfile.focus}. Save contact details, connect on LinkedIn or view the resume.`,
   icons: { icon: "/favicon.svg", apple: "/assets/apple-touch-icon.png" },
   manifest: "/manifest.webmanifest",
   appleWebApp: {

@@ -51,18 +51,10 @@ export function BusinessCard({
           {words.slice(1).join(" ")}
         </h1>
         <div className="position">
-          <p>{p.positioning}</p>
+          <p className="school">{p.school}</p>
+          <p className="degree">{p.positioning}</p>
           <p className="focus">{p.focus}</p>
         </div>
-      </div>
-      <div className="credentials">
-        <p className="school">{p.school}</p>
-        <p className="credential">
-          <span className="credential-mark" aria-hidden="true">
-            ◇
-          </span>
-          {p.credential}
-        </p>
       </div>
       <div className="card-actions">
         <a
@@ -87,7 +79,7 @@ export function BusinessCard({
           </a>
           <a href="/resume" data-event="resume_view">
             <Icon name="resume" />
-            <span>Résumé</span>
+            <span>Resume</span>
             <Icon name="arrow" size={11} />
           </a>
           <a

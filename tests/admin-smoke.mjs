@@ -74,16 +74,14 @@ try {
     await page.getByLabel("Active profile mode").inputValue(),
     "markets",
   );
-  await page
-    .getByLabel("Résumé PDF")
-    .setInputFiles({
-      name: "not-a-pdf.pdf",
-      mimeType: "application/pdf",
-      buffer: Buffer.from("this is not a PDF"),
-    });
+  await page.getByLabel("Resume PDF").setInputFiles({
+    name: "not-a-pdf.pdf",
+    mimeType: "application/pdf",
+    buffer: Buffer.from("this is not a PDF"),
+  });
   await page.getByRole("status").filter({ hasText: "valid PDF" }).waitFor();
   await page
-    .getByLabel("Résumé PDF")
+    .getByLabel("Resume PDF")
     .setInputFiles("public/assets/Hugo_Aschenbrenner_CV.pdf");
   await page.getByRole("status").filter({ hasText: "Upload ready" }).waitFor();
   await page

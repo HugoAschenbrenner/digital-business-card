@@ -112,7 +112,30 @@
 }
 .resume-surface {
   max-width: 680px;
-  padding-top: 80px;
+  min-height: 100svh;
+  padding-top: 32px;
+}
+.resume-navigation {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: max(12px, env(safe-area-inset-top)) 0 16px;
+  margin-bottom: 8px;
+  background: var(--bg);
+}
+.resume-navigation .resume-back {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.resume-navigation .resume-back:hover {
+  background: var(--surface);
+}
+.resume-back > span {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+.resume-surface h1 {
+  overflow-wrap: anywhere;
 }
 .resume-icon {
   width: 64px;
@@ -250,9 +273,6 @@
 .theme-grid .business-card .position {
   font-size: 0.8125rem;
 }
-.theme-grid .credential {
-  font-size: 0.6875rem;
-}
 .theme-grid .location {
   font-size: 0.625rem;
 }
@@ -358,9 +378,6 @@
   .theme-grid .position {
     min-height: 42px;
   }
-  .theme-grid .credential {
-    min-height: 32px;
-  }
   .theme-grid .location {
     letter-spacing: 0.3px;
   }
@@ -425,16 +442,15 @@
     font-size: 0.9375rem !important;
     min-height: 0;
   }
-  .theme-grid .credential {
-    font-size: 0.71875rem;
-    min-height: 0;
-  }
   .theme-grid .location {
     font-size: 0.6875rem;
     letter-spacing: 1.5px;
   }
   .resume-surface {
-    padding-top: 32px;
+    padding-top: 0;
+  }
+  .resume-back {
+    width: 100%;
   }
   .resume-actions {
     flex-direction: column;

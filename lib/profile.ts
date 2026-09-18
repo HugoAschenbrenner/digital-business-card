@@ -56,13 +56,13 @@ export function displayProfile(p: Profile): Profile {
   if (p.mode === "markets")
     return {
       ...p,
-      positioning: "Financial Markets & Investments",
+      positioning: "MSc Financial Markets & Investments",
       focus: "Global Markets",
     };
   if (p.mode === "asset")
     return {
       ...p,
-      positioning: "Financial Markets & Investments",
+      positioning: "MSc Financial Markets & Investments",
       focus: "Asset Management",
     };
   return p;

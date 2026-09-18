@@ -8,8 +8,8 @@ Verified locally on 18 September 2026 with Node.js 24.19.0 and Next.js 16.3.5. T
 - `npm run lint`: passed.
 - `npm run typecheck`: passed.
 - `npm test`: **12 passed**. Tests cover origin selection, vCard syntax/UTF-8, photo size, independent QR decoding, all six Wallet theme/artwork variants, profile validation/modes, authentication, unavailable-provider fallback and offline updates across deployments.
-- `npm run build`: passed. The card, résumé page, theme lab and Wallet page are server-rendered with revalidation. Dynamic downloads and protected admin APIs are included.
-- Chrome and WebKit browser suite: **39 passed, 1 intentionally skipped**. The skipped test is WebKit's unreliable Playwright service-worker offline control; the same offline test passed in Chrome. No failed tests remain.
+- `npm run build`: passed. The card, resume page, theme lab and Wallet page are server-rendered with revalidation. Dynamic downloads and protected admin APIs are included.
+- Chrome and WebKit browser suite: **41 passed, 1 intentionally skipped**. The skipped test is WebKit's unreliable Playwright service-worker offline control; the same offline test passed in Chrome. No failed tests remain.
 - Isolated production admin smoke test: passed for login, persisted mode/theme/photo toggle, rejection of a false PDF, valid PDF/photo upload, visible public updates and logout. The test also exercised an unreachable backend and analytics failure, and restores the baseline public card after its edits.
 - Original PDF integrity: source and served copy both have SHA-256 `87103122c17cd3ac2078d5f106bb77d3bb3ee3c97680e5599de2eb71b6f0a43f`.
 - Deployment tracing: the original PDF and profile derivative are included in the server route file traces, in addition to public asset delivery.
@@ -33,13 +33,19 @@ Lighthouse 13.4.1 against the local production server, mobile emulation, simulat
 - Cumulative layout shift: **0**
 - Total measured transferred payload: approximately **158 KiB**.
 
-This measurement was repeated on the final production build after the offline-cache correction. Scores are not guaranteed on a live host or every device. Re-run after deployment and any substantial changes.
+This measurement was repeated on the production build after the offline-cache correction, before the UI refinements below. Scores are not guaranteed on a live host or every device. Re-run after deployment and any substantial changes.
 
 ## Continuation after the interrupted session
 
 The initial implementation was already published on `main` as `14229edbf16a25a40b4ae1666bffb7824c10b7cd`. Its tree matched the local tested implementation exactly, and [GitHub Actions completed successfully](https://github.com/HugoAschenbrenner/digital-business-card/actions/runs/35318517579). No uncommitted application work was lost.
 
 The continuation synchronized local history and corrected one cache-update edge case: every new cached HTML snapshot now includes its current scripts, styles, portrait and contact assets. A failed new script/style download preserves the previous complete offline card, while online rendering never waits for cache preparation. Three regression tests cover those behaviours. The full local suite, production build, admin smoke test and Lighthouse run above were repeated successfully after the correction.
+
+## Identity and resume navigation refinements
+
+The public card now places the muted uppercase school above the MSc title and accented focus, with tighter header/photo spacing. The CFA credential remains in the source data and original PDF but is absent from the card. All interface labels use “Resume”. The resume page has a full-width mobile **Back to Card** button in a sticky top navigation area.
+
+After these changes, lint, type checking, the production build, all 12 unit tests, all 41 enabled browser tests and the isolated admin smoke test passed. Actual screenshots of both `/card` and `/resume` at 390×844 were inspected in Chrome and WebKit: no clipping, horizontal overflow or awkward title wrapping. The browser suite additionally verifies the identity order, absence of CFA copy, English resume labels, navigation back to the card, minimum touch-target dimensions and visibility after scrolling with 200% text in a short viewport. Axe found no WCAG A/AA violations on either page or the theme variants. The supplied PDF is unchanged.
 
 ## Checks still requiring the owner's services or physical devices
 
